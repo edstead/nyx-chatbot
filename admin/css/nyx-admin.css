@@ -1,0 +1,118 @@
+<?php
+/**
+ * Admin area CSS styles
+ *
+ * @package    Nyx_Chatbot
+ * @subpackage Nyx_Chatbot/admin/css
+ */
+?>
+
+.nyx-admin-header {
+    background: #f6f5ef;
+    border-left: 4px solid #325f6e;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.nyx-admin-header h1 {
+    color: #325f6e;
+    font-size: 24px;
+    margin: 0;
+}
+
+.nyx-admin-tabs {
+    margin-bottom: 20px;
+}
+
+.nyx-admin-tabs .nav-tab {
+    background: #f6f5ef;
+    border-color: #325f6e;
+    color: #325f6e;
+}
+
+.nyx-admin-tabs .nav-tab-active {
+    background: #325f6e;
+    color: #f6f5ef;
+}
+
+.nyx-admin-section {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.nyx-admin-section h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.nyx-form-table {
+    width: 100%;
+}
+
+.nyx-form-table th {
+    font-weight: 600;
+    padding: 15px 10px 15px 0;
+    text-align: left;
+    width: 200px;
+}
+
+.nyx-form-table td {
+    padding: 15px 10px;
+}
+
+.nyx-form-table input[type="text"],
+.nyx-form-table input[type="number"],
+.nyx-form-table textarea,
+.nyx-form-table select {
+    width: 400px;
+    max-width: 100%;
+}
+
+.nyx-form-table textarea {
+    min-height: 100px;
+}
+
+.nyx-color-picker {
+    display: flex;
+    align-items: center;
+}
+
+.nyx-color-preview {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+}
+
+.nyx-api-key-field {
+    position: relative;
+}
+
+.nyx-api-key-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #325f6e;
+}
+
+.nyx-shortcode-example {
+    background: #f6f5ef;
+    padding: 10px;
+    border: 1px solid #325f6e;
+    display: inline-block;
+    font-family: monospace;
+    margin: 10px 0;
+}
+
+.nyx-admin-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-style: italic;
+}

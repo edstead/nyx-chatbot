@@ -1,0 +1,83 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Create plugin ZIP
+      run: |
+        # Create a clean directory for the plugin
+        mkdir -p nyx-chatbot
+        
+        # Copy all files except git, github, and other unnecessary files
+        rsync -av --exclude='.git*' --exclude='.github' --exclude='node_modules' --exclude='*.DS_Store' --exclude='*.zip' . nyx-chatbot/
+        
+        # Create the ZIP file
+        zip -r nyx-chatbot-v${{ steps.get_version.outputs.VERSION }}.zip nyx-chatbot/
+        
+        # Create a ZIP without version in name for direct download
+        cp nyx-chatbot-v${{ steps.get_version.outputs.VERSION }}.zip nyx-chatbot.zip
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Nyx Chatbot v${{ steps.get_version.outputs.VERSION }}
+        body: |
+          ## Nyx Chatbot v${{ steps.get_version.outputs.VERSION }}
+          
+          ### What's New
+          - Automatic updates via GitHub releases
+          - Improved settings management
+          - Better error handling
+          
+          ### Installation
+          1. Download the `nyx-chatbot.zip` file below
+          2. Upload to your WordPress site via Plugins > Add New > Upload Plugin
+          3. Activate and configure your API keys
+          
+          ### Requirements
+          - WordPress 5.0+
+          - PHP 7.4+
+          - OpenAI API key
+          - Pinecone API key
+          
+          For detailed installation and configuration instructions, see the [README](https://github.com/${{ github.repository }}/blob/main/README.md).
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset (Versioned)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nyx-chatbot-v${{ steps.get_version.outputs.VERSION }}.zip
+        asset_name: nyx-chatbot-v${{ steps.get_version.outputs.VERSION }}.zip
+        asset_content_type: application/zip
+        
+    - name: Upload Release Asset (Generic)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nyx-chatbot.zip
+        asset_name: nyx-chatbot.zip
+        asset_content_type: application/zip
